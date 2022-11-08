@@ -1,7 +1,7 @@
 Portfolio project completed as part of the IT Career Switch Full-Stack Developer course. 
 Single-page application allowing the user to interact with backend relational SQL database through a user-friendly UI.
 The database contains records of employees, offices and locations for a company, stored in three tables with the following dependecies:
-![image](erd.PNG)
+![image](./libs/resources/erd.PNG)
 
 The user is assumed to be a member of staff at the company and is able to view, edit, add, and delete all records. Backend PHP routines are used to check for validity of data and maintaining database integrity by preventing deletion of records with dependencies. 
 
