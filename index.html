@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="./libs/resources/bootstrap-5.2.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./libs/css/style.css">
+    <link rel="stylesheet" href="./libs/resources/font-awesome/css/fontawesome.min.css">
+    <link rel="stylesheet" href="./libs/resources/font-awesome/css/solid.min.css">
+    <link rel="icon" type="image/x-icon" href="./libs/resources/favicon.png">
+    <title>Company Directory</title>
+</head>
+  
+<body> 
+  <div class="fixed-top p-0 container-fluid" id="navbar">
+    <div class="row p-2 bg-dark ">
+      <div class="col text-light">
+      <div class="btn btn-dark">
+        <a class="nav-link" href="#"><i class="fa fa-book"></i> Company Directory</a>
+      </div>
+      </div>
+     <div class="col text-end">
+      <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+        <input type="radio" class="btn-check btn-light" name="btnradio" id="people-btn" checked>
+        <label class="btn btn-outline-light" for="people-btn">Employees</label>
+      
+        <input type="radio" class="btn-check btn-light" name="btnradio" id="dep-btn">
+        <label class="btn btn-outline-light" for="dep-btn">Departments</label>
+      
+        <input type="radio" class="btn-check btn-light" name="btnradio" id="loc-btn">
+        <label class="btn btn-outline-light" for="loc-btn">Locations</label>
+      </div>
+      </div>
+    </div>
+    <!-- row end -->
+    <!-- controls row -->
+    <div class="row bg-secondary justify-content-evenly p-2">
+    <div class="col-5">
+      <div class="input-group">
+        <label class="input-group-text" for="sort">Sort by:</label>
+      <select class="sort form-select people departments tab-c" id="sort"></select>
+      <select class="form-select sort" id="sort-order">
+        <option selected value="1">A-Z</option>
+        <option value="-1">Z-A</option>
+      </select>
+      </div>
+    </div>
+    <div class="col-4">
+      <div class="input-group tab-c people">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#search-mdl" id="search-people"><i class="fa fa-sliders"></i> <span class="hidden-mb"></span></button>
+        <input type="text" class="form-control" placeholder="Search employees" id="search-term">
+      </div>
+      <div class="input-group tab-c departments locations">
+        <input type="text" class="form-control" placeholder="Search" id="search">
+      </div>
+    </div>
+    <div class="col-3">
+      <button type="button" class="btn btn-primary tab-c people" data-bs-toggle="modal" id="add-people-btn" data-bs-target="#add-people-mdl"><i class="fa fa-add"></i><span class="hidden-mb"> Add Employee</span></button>
+      <button type="button" class="btn btn-primary tab-c departments" data-bs-toggle="modal" id="add-dpt-btn" data-bs-target="#add-dpt-mdl"><i class="fa fa-add"></i><span class="hidden-mb"> Add Department </span> </button>
+      <button type="button" class="btn btn-primary add-open tab-c locations" data-bs-toggle="modal" id="add-loc-btn" data-bs-target="#add-loc-mdl"><i class="fa fa-add"></i><span class="hidden-mb"> Add Location </span></button>            
+  </div>  
+    </div>
+    <div class="alert alert-success" id="success"></div>
+    <div class="alert alert-danger" id="failure"></div>
+  </div>
+  
+  
+  <main class="container-fluid">
+    <div id="results" class="w-100 bg-light p-1 m-1">
+      <div class="btn-toolbar justify-content-between">
+        <span class="ml-4"><span class="badge bg-primary" id="resno"></span> result(s) found</span>
+        <button type="button" class="btn btn-danger mr-4" id="clear">Clear Search</button>
+      </div>
+    </div>
+
+  
+    <div class="row p-0 mt-3" id="main-list"></div>
+    <!-- MODALS -->
+
+      <!-- Modal for Adding person -->
+      <div class="modal fade" id="add-people-mdl" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content shadow">
+            <form id="add-person">
+            <div class="modal-header">
+              <h5 class="modal-title">Add New Employee</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row mb-3">
+                  <label for="p-fn" class="col-sm-4 col-form-label">First Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="p-fn" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="p-ln" class="col-sm-4 col-form-label">Last Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="p-ln" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="p-e" class="col-sm-4 col-form-label">Email</label>
+                  <div class="col-sm-8">
+                    <input type="email" class="form-control" id="p-e" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="p-j" class="col-sm-4 col-form-label">Job Title</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="p-j">
+                  </div>
+              </div>
+              <div class="row mb-3">
+                <label for="p-d" class="col-form-label col-sm-4 pt-0">Department</label>
+                <div class="col-sm-8">
+                  <select id="p-d" class="form-select select-d departments-list" required>
+                  </select>
+                </div>
+              </div>
+            </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary myBtn" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary myBtn">Add</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    
+      <!-- Modal for viewing person -->
+      <div class="modal fade" id="edit-people-mdl" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content shadow">
+            <form id="edit-person">
+
+            <div class="modal-header">
+
+              <h5 class="modal-title">Update Employee Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row mb-3">
+                  <label for="e-p-fn" class="col-sm-4 col-form-label">First Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="e-p-fn" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="e-p-ln" class="col-sm-4 col-form-label">Last Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="e-p-ln" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="p-e" class="col-sm-4 col-form-label">Email</label>
+                  <div class="col-sm-8">
+                    <input type="email" class="form-control" id="e-p-e" required>
+                  </div>
+                </div>
+                <div class="row mb-3">
+                  <label for="e-p-j" class="col-sm-4 col-form-label">Job Title</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="e-p-j">
+                  </div>
+                </div>
+                <fieldset class="row mb-3">
+                  <legend class="col-form-label col-sm-4 pt-0">Department</legend>
+                  <div class="col-sm-8">
+                    <select id="e-p-d" class="form-select select-d departments-list" required>
+                    </select>
+                  </div>
+                </fieldset>
+                <div class="row mb-3 edit">
+                  <label for="e-p-l" class="col-sm-4 col-form-label">Location</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="e-p-l" readonly>
+                  </div>
+                </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary myBtn" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary myBtn">Save</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div><!-- end of viewing person modal-->
+
+      <!-- Modal for adding department -->
+      <div class="modal fade" id="add-dpt-mdl" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content shadow">
+            <form id="add-dpt">
+
+            <div class="modal-header">
+
+              <h5 class="modal-title">Add New Department</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row mb-3">
+                  <label for="d-n" class="col-sm-4 col-form-label">Department Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="d-n" required>
+                  </div>
+              </div>
+              <div class="row mb-3">
+                  <label for="d-l" class="col-form-label col-sm-4 pt-0">Location</label>
+                  <div class="col-sm-8">
+                    <select id="d-l" class="form-select select-l locations-lists" required>
+                    </select>
+                  </div>
+                </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary myBtn" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary myBtn">Add </button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div><!-- End of adding dept modal -->
+
+      <!-- Modal for viewing department -->
+      <div class="modal fade" id="edit-dpt-mdl" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content shadow">
+            <form id="edit-dpt">
+
+            <div class="modal-header">
+
+              <h5 class="modal-title">Update Department Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row mb-3">
+                  <label for="d-n" class="col-sm-4 col-form-label">Department Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="e-d-n" required>
+                  </div>
+              </div>
+              <div class="row mb-3">
+                  <label for="d-l" class="col-form-label col-sm-4 pt-0">Location</label>
+                  <div class="col-sm-8">
+                    <select id="e-d-l" class="form-select select-l locations-lists" required>
+                    </select>
+                  </div>
+                </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary myBtn" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary myBtn">Save</button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal for adding location -->
+      <div class="modal fade" id="add-loc-mdl" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content shadow">
+            <form id="add-loc">
+
+            <div class="modal-header">
+
+              <h5 class="modal-title">Add New Location</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row mb-3">
+                  <label for="l-n" class="col-sm-4 col-form-label">Location Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="l-n" required>
+                  </div>
+              </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn btn-primary">Add </button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal for editing location -->
+      <div class="modal fade" id="edit-loc-mdl" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content shadow">
+            <form id="edit-loc">
+
+            <div class="modal-header">
+
+              <h5 class="modal-title">Update Location Details</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+
+              <div class="row mb-3">
+                  <label for="e-l-n" class="col-sm-4 col-form-label">Location Name</label>
+                  <div class="col-sm-8">
+                    <input type="text" class="form-control" id="e-l-n" required>
+                  </div>
+              </div>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn myBtn btn-secondary myBtn" data-bs-dismiss="modal">Cancel</button>
+                  <button type="submit" class="btn myBtn btn-primary myBtn">Save </button>
+                </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search employees modal -->
+      <div class="modal fade" id="search-mdl" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+          <div class="modal-content shadow">
+            <form id="search-form">
+
+            <div class="modal-header">
+
+              <h5 class="modal-title">Search Settings</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div>
+              <h6> Search in </h6>
+                <div class="row mb-2">
+                  <div class="col">
+                    <input type="radio" class="form-check-input" id="searchFname" name="fields" value="firstName">
+                    <label class="form-check-label" for="searchFname">First Name</label>
+                  </div>
+                  <div class="col">
+                    <input type="radio" class="form-check-input" id="searchLname" name="fields" value="lastName">
+                    <label class="form-check-label" for="searchLname">Last Name</label>
+                  </div>
+                  <div class="col">
+                    <input type="radio" class="form-check-input" id="searchEmail" name="fields" value="email">
+                    <label class="form-check-label" for="searchEmail">Email</label>
+                  </div>
+                  <div class="col">
+                    <input type="radio" class="form-check-input" name="fields" id="searchAll" value="" checked>
+                    <label class="form-check-label" for="searchFname">All</label>
+                  </div>
+                </div>
+              </div>
+              <h6>Filter Locations</h6>
+                  <ul id="filter-l" class="locations-list">
+                  </ul>
+              <h6>Filter Departments</h6>
+              <ul id="filter-d" class="departments-list">
+                  </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary myBtn" data-bs-dismiss="modal">Cancel</button>
+              <button type="submit" class="btn btn-primary myBtn">Apply </button>
+            </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+
+
+<!-- Delete Confirmation modal -->
+      <div class="modal" id="confirm" data-bs-backdrop="false" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog ">
+          <div class="modal-content warning shadow">
+            <div class="modal-body">
+              Delete <span id="to-delete"></span>? This operation cannot be undone
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary myBtn" data-bs-dismiss="modal">Cancel</button>
+              <button type="button" class="btn btn-primary myBtn" id="delete"  data-bs-dismiss="modal">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </main>
+  
+<script type="application/javascript" src="./libs/resources/jquery-3.6.1.min.js"></script>
+<script type="application/javascript" src="./libs/resources/bootstrap-5.2.2-dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="./libs/js/script.js"></script>
+<script type="module" src="./libs/js/departments.js"></script> 
+     
+</body>
+</html>

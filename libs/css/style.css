@@ -1,0 +1,53 @@
+  @media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+      font-size: 3.5rem;
+    }
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    padding-top: 6.5rem; 
+  }
+
+ 
+  #results{
+    display: none;
+  }
+
+   @media (max-width: 500px){
+    .hidden-mb{
+      display: none;
+    } 
+    body {
+      padding-top: 9rem; 
+    }
+  }
+  
+  ul {
+    column-count: 2;
+    column-gap: 2rem;
+    list-style: none;
+  }
+  .alert{
+    display: none;
+  }
+  .d-icons {
+    width: 67px;
+  }
+
+  .warning {
+    background-color: #fff3cd;
+    color: #856404;
+  }
+
+  .myBtn {
+    width: 70px;
+  }
+  
+.modal {
+  overflow: auto;
+}
+ 
+
+  
